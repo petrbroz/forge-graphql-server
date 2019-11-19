@@ -1,0 +1,21 @@
+{
+  "name": "forge-graphql-server",
+  "version": "0.0.0",
+  "description": "Experimental GraphQL layer on top of Autodesk Forge APIs.",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "autodesk",
+    "forge",
+    "api",
+    "graphql"
+  ],
+  "author": "Petr Broz <petr.broz@autodesk.com>",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.9.9",
+    "forge-server-utils": "^8.0.6",
+    "graphql": "^14.5.8"
+  }
+}
