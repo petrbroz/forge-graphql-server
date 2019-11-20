@@ -1,7 +1,7 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { GraphQLServer } = require('graphql-yoga');
 const { DataManagementClient, ModelDerivativeClient, urnify, ManifestHelper } = require('forge-server-utils');
 
-const typeDefs = gql`
+const typeDefs = `
   type Query {
     buckets: [Bucket]
     bucketsPage(offset: Int = 0, limit: Int = 32): BucketsPage
@@ -102,14 +102,14 @@ const resolvers = {
                 return helper.manifest.derivatives.map(derivative => ({
                     name: derivative.name
                 }));
-            } catch(err) {
+            } catch (err) {
                 return null;
             }
         }
     }
 };
 
-const server = new ApolloServer({
+const server = new GraphQLServer({
     typeDefs,
     resolvers,
     context: ({ req }) => {
@@ -126,6 +126,13 @@ const server = new ApolloServer({
     }
 });
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}`);
-});
+const options = {
+    port: process.env.PORT || 8000,
+    endpoint: '/graphql',
+    subscriptions: '/subscriptions',
+    playground: '/playground',
+};
+
+server.start(options, ({ port }) =>
+    console.log(`Server started, listening on port ${port} for incoming requests.`)
+);
